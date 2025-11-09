@@ -36,7 +36,7 @@ ENV NEO4J_URI=neo4j+s://a83acdda.databases.neo4j.io \
     NEO4J_DATABASE=neo4j
 # Create entrypoint script
 RUN echo '#!/bin/sh' > /root/entrypoint.sh && \
-    echo 'mcp-proxy --port 8080 --stateless -- /root/neo4j-mcp' >> /root/entrypoint.sh && \
+    echo 'mcp-proxy --host 0.0.0.0 --port 8080 --stateless -- /root/neo4j-mcp' >> /root/entrypoint.sh && \
     chmod +x /root/entrypoint.sh
 # Run the proxy wrapper
 CMD ["/root/entrypoint.sh"]
