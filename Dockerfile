@@ -30,12 +30,10 @@ RUN npm install -g mcp-proxy
 EXPOSE 8080
 
 # Set default Neo4j environment variables
-ENV NEO4J_HOST=localhost \
-    NEO4J_PORT=7687 \
-    NEO4J_USERNAME="" \
-    NEO4J_PASSWORD="" \
-    NEO4J_READ_ONLY=true
-
+ENV NEO4J_URI=neo4j+s://a83acdda.databases.neo4j.io \
+    NEO4J_USERNAME=neo4j \
+    NEO4J_PASSWORD=E6RWi4K6nqhQd8bjGpK7gpD4SGzoVk0Cv7ou8vuLM4 \
+    NEO4J_DATABASE=neo4j
 # Create entrypoint script
 RUN echo '#!/bin/sh' > /root/entrypoint.sh && \
     echo 'mcp-proxy --port 8080 --stateless -- /root/neo4j-mcp' >> /root/entrypoint.sh && \
