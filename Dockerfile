@@ -31,7 +31,7 @@ EXPOSE 8080
 
 # Create entrypoint script
 RUN echo '#!/bin/sh' > /root/entrypoint.sh && \
-    echo 'mcp-proxy --port 8080 -- /root/neo4j-mcp' >> /root/entrypoint.sh && \
+    echo 'mcp-proxy --port 8080 --stateless -- /root/neo4j-mcp' >> /root/entrypoint.sh && \
     chmod +x /root/entrypoint.sh
 # Run the proxy wrapper
 CMD ["/root/entrypoint.sh"]
