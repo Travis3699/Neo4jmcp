@@ -1,4 +1,4 @@
-# Build stage
+# Build stage for Neo4j MCP
 FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
@@ -13,8 +13,8 @@ COPY . .
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -o neo4j-mcp ./cmd/neo4j-mcp
 
-# Runtime stage
-FROM alpine:latest
+# Final stage with Node.js for mcp-proxy
+FROM node:20-alpine
 
 # Install CA certificates for HTTPS
 RUN apk --no-cache add ca-certificates
@@ -24,8 +24,16 @@ WORKDIR /root/
 # Copy the binary from builder
 COPY --from=builder /app/neo4j-mcp .
 
-# Expose port (adjust if needed)
+# Install mcp-proxy globally
+RUN npm install -g @sparfenyuk/mcp-proxy
+
+# Expose port for HTTP
 EXPOSE 8080
 
-# Run the MCP server
-CMD ["./neo4j-mcp"]
+# Create entrypoint script
+RUN echo '#!/bin/sh' > /root/entrypoint.sh && \
+    echo 'mcp-proxy sse-to-stdio --port 8080 --path /mcp -- /root/neo4j-mcp' >> /root/entrypoint.sh && \
+    chmod +x /root/entrypoint.sh
+
+# Run the proxy wrapper
+CMD ["/root/entrypoint.sh"]
