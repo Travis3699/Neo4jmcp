@@ -25,8 +25,7 @@ WORKDIR /root/
 COPY --from=builder /app/neo4j-mcp .
 
 # Install mcp-proxy globally
-RUN npm install -g @sparfenyuk/mcp-proxy
-
+RUN npm install -g mcp-proxy
 # Expose port for HTTP
 EXPOSE 8080
 
