@@ -1,12 +1,40 @@
-version: 1.0
-name: neo4jmcp
-description: Neo4j official MCP Server
-server:
-  type: stdio
-  command: neo4j-mcp
-  args: []
-  env:
-    NEO4J_URI: ${NEO4J_URI}
-    NEO4J_USERNAME: ${NEO4J_USERNAME}
-    NEO4J_PASSWORD: ${NEO4J_PASSWORD}
-    NEO4J_DATABASE: ${NEO4J_DATABASE:-neo4j}
+runtime: "container"
+
+startCommand:
+  type: "http"
+  configSchema:
+    type: "object"
+    required: ["NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"]
+    properties:
+      NEO4J_URI:
+        type: "string"
+        title: "Neo4j URI"
+        description: "Neo4j database URI (e.g., neo4j://localhost:7687)"
+      NEO4J_USERNAME:
+        type: "string"
+        title: "Username"
+        description: "Neo4j database username"
+      NEO4J_PASSWORD:
+        type: "string"
+        title: "Password"
+        description: "Neo4j database password"
+      NEO4J_DATABASE:
+        type: "string"
+        title: "Database"
+        description: "Neo4j database name"
+        default: "neo4j"
+      NEO4J_READ_ONLY:
+        type: "boolean"
+        title: "Read Only Mode"
+        description: "Enable read-only mode"
+        default: false
+  exampleConfig:
+    NEO4J_URI: "neo4j://localhost:7687"
+    NEO4J_USERNAME: "neo4j"
+    NEO4J_PASSWORD: "password"
+    NEO4J_DATABASE: "neo4j"
+    NEO4J_READ_ONLY: false
+
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "."
