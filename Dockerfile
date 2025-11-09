@@ -31,7 +31,7 @@ EXPOSE 8080
 
 # Set default Neo4j environment variables
 ENV NEO4J_URI=neo4j+s://a83acdda.databases.neo4j.io \
-    NEO4J_USERNAME=neo4j \
+    NEO4J_USER=neo4j \
     NEO4J_PASSWORD=E6RWi4K6nqhQd8bjGpK7gpD4SGzoVk0Cv7ou8vuLM4 \
     NEO4J_DATABASE=neo4j
 # Create entrypoint script
