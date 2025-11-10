@@ -1,37 +1,26 @@
-# Build stage for Neo4j MCP
-FROM golang:1.25-alpine AS builder
+# Use Python base image for official mcp-neo4j-cypher
+FROM python:3.11-slim
 
-WORKDIR /app
+# Install uv package manager for faster installs
+RUN pip install --no-cache-dir uv
 
-# Copy go mod files
-COPY go.mod go.sum ./
-RUN go mod download
+# Install Neo4j MCP Cypher server
+RUN uv pip install --system mcp-neo4j-cypher
 
-# Copy source code
-COPY . .
-
-# Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o neo4j-mcp ./cmd/neo4j-mcp
-
-# Final stage with Alpine
-FROM alpine:latest
-
-# Install CA certificates for HTTPS
-RUN apk --no-cache add ca-certificates
-
-WORKDIR /root/
-
-# Copy the binary from builder
-COPY --from=builder /app/neo4j-mcp .
-
-# Expose port for HTTP
-EXPOSE 8080
-
-# Set default Neo4j environment variables
+# Neo4j connection configuration
 ENV NEO4J_URI=neo4j+s://a83acdda.databases.neo4j.io \
     NEO4J_USER=neo4j \
     NEO4J_PASSWORD=E6RWi4K6nqhQd8bjGpK7gpD4SGzoVk0Cv7ou8vuLM4 \
     NEO4J_DATABASE=neo4j
 
-# Run neo4j-mcp directly with HTTP transport
-CMD ["/root/neo4j-mcp", "--transport", "http", "--host", "0.0.0.0", "--port", "8080"]
+# HTTP transport configuration (required for Smithery)
+ENV NEO4J_TRANSPORT=http \
+    NEO4J_MCP_SERVER_HOST=0.0.0.0 \
+    NEO4J_MCP_SERVER_PORT=8080 \
+    NEO4J_MCP_SERVER_PATH=/mcp
+
+# Smithery requires port 8080
+EXPOSE 8080
+
+# Run the official Neo4j MCP server
+CMD ["mcp-neo4j-cypher"]
