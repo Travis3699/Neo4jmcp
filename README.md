@@ -14,6 +14,25 @@ BETA - Active development; not yet suitable for production.
 
 ## Installation (Binary)
 
+## Configuration
+
+The server works out of the box with default settings, connecting to `bolt://localhost:7687`.
+
+You can customize the Neo4j connection using environment variables:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `NEO4J_URI` | `bolt://localhost:7687` | Neo4j connection URI |
+| `NEO4J_USER` | `neo4j` | Database username |
+| `NEO4J_PASSWORD` | `password` | Database password |
+| `NEO4J_DATABASE` | `neo4j` | Database name |
+
+### Smithery Deployment
+
+This server is deployed on Smithery at: `https://server.smithery.ai/@Travis3699/neo4jmcp/mcp`
+
+Set environment variables in the Smithery deployment settings to connect to your Neo4j instance.
+
 Releases: https://github.com/neo4j/mcp/releases
 
 1. Download the archive for your OS/arch.
