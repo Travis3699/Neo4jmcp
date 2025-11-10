@@ -1,5 +1,7 @@
 # Neo4j MCP (BETA)
 
+[![smithery badge](https://smithery.ai/badge/@Travis3699/neo4jmcp)](https://smithery.ai/server/@Travis3699/neo4jmcp)
+
 Official Model Context Protocol (MCP) server for Neo4j.
 
 ## Status
@@ -68,14 +70,14 @@ Restart VSCode; open Copilot Chat and ask: "List Neo4j MCP tools" to confirm.
 
 First, make sure you have Claude for Desktop installed. [You can install the latest version here](https://claude.ai/download).
 
-We’ll need to configure Claude for Desktop for whichever MCP servers you want to use. To do this, open your Claude for Desktop App configuration at:
+We'll need to configure Claude for Desktop for whichever MCP servers you want to use. To do this, open your Claude for Desktop App configuration at:
 
 - (MacOS/Linux) `~/Library/Application Support/Claude/claude_desktop_config.json`
 - (Windows) `$env:AppData\Claude\claude_desktop_config.json`
 
-in a text editor. Make sure to create the file if it doesn’t exist.
+in a text editor. Make sure to create the file if it doesn't exist.
 
-You’ll then add the `neo4j-mcp` MCP in the mcpServers key:
+You'll then add the `neo4j-mcp` MCP in the mcpServers key:
 
 ```json
 {
